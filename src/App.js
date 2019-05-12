@@ -4,8 +4,7 @@ import './App.css';
 import Graph from './Dejcsra.js'
 import { statement } from '@babel/template';
 
-import { createStore, applyMiddleware, compose } from 'redux'
-import { connectRouter, routerMiddleware } from 'connected-react-router'
+import { createStore, applyMiddleware, compose } from '../node_modules/redux/src/index.js'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 import rootReducer from './modules'
@@ -95,46 +94,29 @@ render() {
   )
 }
 }
-//-----------------------------------Reduce----------------------------------------------//
+//-----------------------------------Redux----------------------------------------------//
 //---------------------------КОНСТАНТЫ----------------------------------------------------//
+ export const StP = 'SP';
+export const FinP = 'FP'
 
-const A = 'A';
-const B = 'B';
-const C = 'C';
-const D = 'D';
-const E = 'E';
-const F = 'F';
-//---------------------------ГЕНЕРАТОРЫ ДЕЙСТВИЙ-----------------------------------------------------//
+//---------------------------ДЕЙСТВИЯ-----------------------------------------------------//
+//Действие передающее стартовую точку
+
+//----------------------ГЕНЕРАТОРЫ ДЕЙСТВИЙ-----------------------------------------------//
+export function addSP(startNode) {
+  return { type: StP, startNode}
+}
+export function addFP(finishNode) {
+  return { type: FinP, finishNode}
+}
 
 //-------------------------РЕДЬЮСЕРЫ----------------------------------------------------//
 const initialState = {startpoints: ['A']}
 
 //Функция редюсер
-function todoApp(state = initialState, action) {
-  switch(action.type) {
-  case 'A': {
-  return state.push['A']
-  }
-  case 'B': {
-  return state.push['B']
-  }
-  case 'C': {
-  return state.push['C']
-  }
-  case 'D': {
-    return state.push['D']
-  }
-  case 'E': {
-    return state.push['E']
-  }
-  case 'F': {
-    return statement.push['F']
-  } 
-  default: return state
-  }
-}
+
 //---------------------------ХРАНИЛИЩЕ--------------------------------------------//
-const store = createStore(todoApp)
+
 
 //-----------------------------------Здесь будем писать код для рендеринга-----------------------------------------------
 class Nodes extends Component {
