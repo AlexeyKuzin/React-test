@@ -5,6 +5,7 @@ import Graph from './Dejcsra.js'
 import { statement } from '@babel/template';
 
 import { createStore, applyMiddleware, compose } from '../node_modules/redux/src/index.js'
+import { connect } from 'react-redux'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 import rootReducer from './modules'
@@ -125,6 +126,11 @@ function todoApp(state = initialState, action) {
       startNode: action.startNode, 
       finishNode: state.finishNode
       })
+    case FinP: 
+      return Object.assign({}, {
+      startNode: state.startNode, 
+      finishNode: action.finishNode
+      })
     default:
       return state
 }
@@ -142,7 +148,9 @@ let unsubscribe = store.subscribe((todoApp) =>
 store.dispatch(addSP('С'))
 store.dispatch(addSP('D'))
 store.dispatch(addSP('D'))
-
+store.dispatch(addFP('B'))
+store.dispatch(addFP('D'))
+store.dispatch(addSP('C'))
 //-----------------------------------Здесь будем писать код для рендеринга-----------------------------------------------
 class Nodes extends Component {
   render() {
