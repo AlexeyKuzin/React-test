@@ -5,7 +5,7 @@ import Graph from './Dejcsra.js'
 import { statement } from '@babel/template';
 
 import { createStore, applyMiddleware, compose } from '../node_modules/redux/src/index.js'
-import { connect } from 'react-redux'
+//import { connect } from '../node_modules/react-redux/src/index.js'
 import thunk from 'redux-thunk'
 import createHistory from 'history/createBrowserHistory'
 import rootReducer from './modules'
@@ -119,7 +119,7 @@ const initialState = {
  
 
 //---------------------редьюсер обновляющий стартовую точку---------------------------//
-function todoApp(state = initialState, action) {
+export function todoApp(state = initialState, action) {
   switch (action.type) {
     case StP:
       return Object.assign({}, {
@@ -137,11 +137,11 @@ function todoApp(state = initialState, action) {
 }
 //-------------------------Создадим хранилище---------------------------------------//
 
-let store = createStore(todoApp)
+export let store = createStore(todoApp)
  console.log(store.getState())
 
 //--------------------------Вызовем функцию слушатель-------------------------------//
-let unsubscribe = store.subscribe((todoApp) =>
+export let unsubscribe = store.subscribe((todoApp) =>
   console.log(store.getState())
 )
 
