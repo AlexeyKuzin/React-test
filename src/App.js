@@ -49,7 +49,7 @@ export let shortestPath; // кртачайший путь
 export let totalWeight; // общий вес маршрута
 
 //Функция для вывода на экран кратчайшего пути и общего веса маршрута 
-function calcShortPath() {
+function calcShortPath(startPoint, endPoint) {
     // debugger;
     shortestPath = [startPoint, ...GR.shortestPath(startPoint, endPoint).reverse()];
     totalWeight = shortestPath.reduce((acc, node, index, arr) => {
@@ -59,7 +59,6 @@ function calcShortPath() {
         }
         return acc;
     }, 0);
-    console.log(typeof(totalWeight));
     document.getElementById('shortestPath').innerText = `Shortest Path: ${shortestPath.join(' => ')}`;
     document.getElementById('totalWeight').innerText = `Total Weight: ${totalWeight}`;
 }
@@ -75,7 +74,7 @@ render() {
   return(
   <div>
     <h3>Стартовая точка</h3>
-    <select onChange={e => {startPoint = e.target.value; calcShortPath();}}>{kays}</select>
+    <select onChange={e => {startPoint = e.target.value; store.dispatch(addSP(e.target.value)); calcShortPath(store.getState()['startNode'], store.getState()['finishNode']);}}>{kays}</select>
   </div>
   )
 }
@@ -90,7 +89,7 @@ render() {
   return(
   <div>
     <h3>Финишная точка</h3>
-    <select onChange={e => {endPoint = e.target.value; calcShortPath();}}>{kays}</select>
+    <select onChange={e => {endPoint = e.target.value; store.dispatch(addFP(e.target.value)); calcShortPath(store.getState()['startNode'], store.getState()['finishNode']);}}>{kays}</select>
   </div>
   )
 }
@@ -118,7 +117,7 @@ const initialState = {
 }
  
 
-//---------------------редьюсер обновляющий стартовую точку---------------------------//
+//---------------------редьюсер обновляющий стартовую либо финишную точку---------------------------//
 export function todoApp(state = initialState, action) {
   switch (action.type) {
     case StP:
@@ -142,15 +141,11 @@ export let store = createStore(todoApp)
 
 //--------------------------Вызовем функцию слушатель-------------------------------//
 export let unsubscribe = store.subscribe((todoApp) =>
-  console.log(store.getState())
+      console.log(store.getState()['startNode'])
 )
 
-store.dispatch(addSP('С'))
-store.dispatch(addSP('D'))
-store.dispatch(addSP('D'))
-store.dispatch(addFP('B'))
-store.dispatch(addFP('D'))
-store.dispatch(addSP('C'))
+//store.dispatch(addSP('С'))
+
 //-----------------------------------Здесь будем писать код для рендеринга-----------------------------------------------
 class Nodes extends Component {
   render() {
