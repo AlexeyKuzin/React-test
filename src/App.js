@@ -43,7 +43,7 @@ export let kays = k.map((l) => <option>{l}</option>)
 
 
 export let startPoint = k[0]; // Стартовая точка
-let endPoint = k[0]; // Финишная точка
+export let endPoint = k[0]; // Финишная точка
 export let shortestPath; // кртачайший путь
 export let totalWeight; // общий вес маршрута
 
@@ -96,7 +96,7 @@ render() {
 }
 //-----------------------------------Redux----------------------------------------------//
 //---------------------------КОНСТАНТЫ----------------------------------------------------//
- export const StP = 'SP';
+export const StP = 'SP';
 export const FinP = 'FP'
 
 //---------------------------ДЕЙСТВИЯ-----------------------------------------------------//
@@ -111,12 +111,37 @@ export function addFP(finishNode) {
 }
 
 //-------------------------РЕДЬЮСЕРЫ----------------------------------------------------//
-const initialState = {startpoints: ['A']}
+const initialState = {
+  startNode: k[0],
+  finishNode: k[0]
+}
+ 
 
-//Функция редюсер
+//---------------------редьюсер обновляющий стартовую точку---------------------------//
+function todoApp(state = initialState, action) {
+  switch (action.type) {
+    case StP:
+      return Object.assign({}, {
+      startNode: action.startNode, 
+      finishNode: state.finishNode
+      })
+    default:
+      return state
+}
+}
+//-------------------------Создадим хранилище---------------------------------------//
 
-//---------------------------ХРАНИЛИЩЕ--------------------------------------------//
+let store = createStore(todoApp)
+ console.log(store.getState())
 
+//--------------------------Вызовем функцию слушатель-------------------------------//
+let unsubscribe = store.subscribe((todoApp) =>
+  console.log(store.getState())
+)
+
+store.dispatch(addSP('С'))
+store.dispatch(addSP('D'))
+store.dispatch(addSP('D'))
 
 //-----------------------------------Здесь будем писать код для рендеринга-----------------------------------------------
 class Nodes extends Component {
