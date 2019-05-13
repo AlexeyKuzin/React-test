@@ -1,4 +1,9 @@
-import * as types from '../constants/ActionTypes'
-import { type } from 'os';
+import {StP, FinP} from './Constants.js';
 
-export const changeStartPoints = startPoint => {type: types.ADD_START_POINT, startPoint};
+export function addSP(startNode) {
+    return { type: StP, startNode}
+  }
+  export function addFP(finishNode) {
+    return { type: FinP, finishNode}
+  }
+

@@ -1,17 +1,16 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Graph from './Dejcsra.js'
 import { statement } from '@babel/template';
 
-import { createStore, applyMiddleware, compose } from '../node_modules/redux/src/index.js'
+import { createStore } from '../node_modules/redux/src/index.js'
 //import { connect } from '../node_modules/react-redux/src/index.js'
-import thunk from 'redux-thunk'
-import createHistory from 'history/createBrowserHistory'
-import rootReducer from './modules'
+//import thunk from 'redux-thunk'
+//import rootReducer from './modules'
 import { type } from 'os';
 
-
+import {addSP, addFP } from './Actions'
+import todoApp from './reducers';
 
 //------------------------------------Здесь будем загружать данные для JSON------------------------------------------
 
@@ -95,56 +94,23 @@ render() {
 }
 }
 //-----------------------------------Redux----------------------------------------------//
-//---------------------------КОНСТАНТЫ----------------------------------------------------//
-export const StP = 'SP';
-export const FinP = 'FP'
 
-//---------------------------ДЕЙСТВИЯ-----------------------------------------------------//
-//Действие передающее стартовую точку
-
-//----------------------ГЕНЕРАТОРЫ ДЕЙСТВИЙ-----------------------------------------------//
-export function addSP(startNode) {
-  return { type: StP, startNode}
-}
-export function addFP(finishNode) {
-  return { type: FinP, finishNode}
-}
-
-//-------------------------РЕДЬЮСЕРЫ----------------------------------------------------//
-const initialState = {
+//-------------------------initialState---------------------------------------------------//
+export const initialState = {
   startNode: k[0],
   finishNode: k[0]
-}
+} 
  
-
-//---------------------редьюсер обновляющий стартовую либо финишную точку---------------------------//
-export function todoApp(state = initialState, action) {
-  switch (action.type) {
-    case StP:
-      return Object.assign({}, {
-      startNode: action.startNode, 
-      finishNode: state.finishNode
-      })
-    case FinP: 
-      return Object.assign({}, {
-      startNode: state.startNode, 
-      finishNode: action.finishNode
-      })
-    default:
-      return state
-}
-}
 //-------------------------Создадим хранилище---------------------------------------//
 
 export let store = createStore(todoApp)
  console.log(store.getState())
 
 //--------------------------Вызовем функцию слушатель-------------------------------//
+//-тест - в логике слушатель не играет роли - просто выводит свыбранную стартовую точку//
 export let unsubscribe = store.subscribe((todoApp) =>
       console.log(store.getState()['startNode'])
 )
-
-//store.dispatch(addSP('С'))
 
 //-----------------------------------Здесь будем писать код для рендеринга-----------------------------------------------
 class Nodes extends Component {
